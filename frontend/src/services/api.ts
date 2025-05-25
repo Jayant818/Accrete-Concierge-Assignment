@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://backend-service";
+const API_BASE_URL = "/api"; // This will be proxied to the backend
 
 export interface SendMessageRequest {
   message: string;
