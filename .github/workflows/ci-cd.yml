@@ -1,0 +1,87 @@
+name: Deploy to GKE
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: docker.io
+  DOCKER_USERNAME: jacksparrox
+  BACKEND_IMAGE_NAME: jacksparrox/accrete-concierge-backend
+  FRONTEND_IMAGE_NAME: jacksparrox/accrete-concierge-frontend
+  PROJECT_ID: socialpost-430014 
+  CLUSTER_NAME: concierge-cluster
+  CLUSTER_REGION: asia-south1
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Test backend
+        working-directory: ./backend
+        run: |
+          pnpm install
+          pnpm test
+
+      - name: Test frontend
+        working-directory: ./frontend
+        run: |
+          pnpm install
+          pnpm test
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ env.BACKEND_IMAGE_NAME }}:latest
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ env.FRONTEND_IMAGE_NAME }}:latest
+
+  deploy-to-gke:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION
+
+      - name: Deploy to GKE
+        run: |
+          kubectl apply -f k8s/deployment.yml
+          kubectl apply -f k8s/service.yml

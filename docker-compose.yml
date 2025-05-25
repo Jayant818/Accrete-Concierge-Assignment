@@ -1,0 +1,29 @@
+version: '3.10'
+
+services:
+  backend:
+    image: accrete-concierge-backend
+    build: 
+      dockerfile: Dockerfile
+      context: ./backend
+    ports:
+      - '3001:3001'
+    environment:
+      - PORT=3001
+    networks:
+      - app-network
+  frontend:
+    image: accrete-concierge-frontend
+    build: 
+      dockerfile: Dockerfile
+      context: ./frontend
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
