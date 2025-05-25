@@ -18,10 +18,10 @@ spec:
         - name: backend
           image: jacksparrox/accrete-concierge-backend:latest
           ports:
-            - containerPort: 3001
+            - containerPort: 80
           env:
             - name: PORT
-              value: "3001"  
+              value: "80"  
 
 ---
 
@@ -46,6 +46,3 @@ spec:
           image: jacksparrox/accrete-concierge-frontend:latest
           ports:
             - containerPort: 80
-          env:
-            - name: BACKEND_URL
-              value: "3001"
