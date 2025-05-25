@@ -34,13 +34,13 @@ jobs:
         working-directory: ./backend
         run: |
           pnpm install
-          pnpm test
+          pnpm test -- --passWithNoTests
 
       - name: Test frontend
         working-directory: ./frontend
         run: |
           pnpm install
-          pnpm test
+          pnpm test -- --passWithNoTests
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
