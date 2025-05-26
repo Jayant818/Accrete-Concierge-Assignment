@@ -1,4 +1,4 @@
-const API_BASE_URL = "/api"; // This will be proxied to the backend
+const API_BASE_URL = "/api"; // This will be routed through the ingress
 
 export interface SendMessageRequest {
   message: string;
