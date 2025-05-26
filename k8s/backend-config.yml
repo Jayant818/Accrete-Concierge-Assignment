@@ -7,7 +7,7 @@ spec:
     requestPath: /api/ping
     port: 80
     type: HTTP
-    timeoutSec: 30
-    checkIntervalSec: 10
-    healthyThreshold: 1
-    unhealthyThreshold: 3
+    timeoutSec: 5          # Timeout for each health check (must be less than checkIntervalSec)
+    checkIntervalSec: 10   # Interval between health checks
+    healthyThreshold: 1    # Number of successful checks to mark as healthy
+    unhealthyThreshold: 3  # Number of failed checks to mark as unhealthy
