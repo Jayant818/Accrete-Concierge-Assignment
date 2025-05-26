@@ -154,7 +154,6 @@ function App() {
     <div className="app">
       <div className="app-header">
         <h1>Ping Window Demo</h1>
-        <p>A production-ready React component with chat interface</p>
         <div className="connection-status">
           {backendConnected === null ? (
             <span className="status-checking">Checking backend connection...</span>
