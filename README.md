@@ -21,6 +21,7 @@ This project implements a minimal chat service with the following components:
 - ✅ CI/CD pipeline for automated deployment
 
 
+
 ## Getting Started
 
 ### Prerequisites
