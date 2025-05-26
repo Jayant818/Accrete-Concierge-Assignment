@@ -8,8 +8,8 @@ on:
 env:
   REGISTRY: docker.io
   DOCKER_USERNAME: jacksparrox
-  BACKEND_IMAGE_NAME: jacksparrox/accrete-concierge-backend
-  FRONTEND_IMAGE_NAME: jacksparrox/accrete-concierge-frontend
+  BACKEND_IMAGE_NAME: jacksparrox/accrete-backend
+  FRONTEND_IMAGE_NAME: jacksparrox/accrete-frontend
   PROJECT_ID: socialpost-430014 
   CLUSTER_NAME: concierge-cluster
   CLUSTER_REGION: asia-south1
