@@ -4,20 +4,20 @@ metadata:
   name: app-ingress
   annotations:
     kubernetes.io/ingress.class: "gce"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    # Remove nginx annotation - not compatible with GCE ingress
 spec:
   rules:
   - http:
       paths:
-      - path: /api
-        pathType: Prefix
+      - path: /api/*
+        pathType: ImplementationSpecific
         backend:
           service:
             name: backend-service
             port:
               number: 80
-      - path: /
-        pathType: Prefix
+      - path: /*
+        pathType: ImplementationSpecific
         backend:
           service:
             name: frontend-service
