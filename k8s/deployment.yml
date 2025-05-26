@@ -16,12 +16,24 @@ spec:
     spec:
       containers:
         - name: backend
-          image: jacksparrox/accrete-concierge-backend:latest
+          image: jacksparrox/accrete-backend:latest  # Fixed image name
           ports:
             - containerPort: 80
           env:
             - name: PORT
-              value: "80"  
+              value: "80"
+          readinessProbe:
+            httpGet:
+              path: /api/ping
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/ping
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
 
 ---
 
@@ -43,6 +55,18 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: jacksparrox/accrete-concierge-frontend:latest
+          image: jacksparrox/accrete-frontend:latest  
           ports:
             - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10

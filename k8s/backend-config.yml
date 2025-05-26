@@ -6,3 +6,8 @@ spec:
   healthCheck:
     requestPath: /api/ping
     port: 80
+    type: HTTP
+    timeoutSec: 30
+    checkIntervalSec: 10
+    healthyThreshold: 1
+    unhealthyThreshold: 3
