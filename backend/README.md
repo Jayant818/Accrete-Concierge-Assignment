@@ -1,85 +1,121 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Ping Chat Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A simple chat "ping" service with a React frontend and NestJS backend, deployed to Kubernetes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Project Overview
 
-## Description
+This project implements a minimal chat service with the following components:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Backend API**: NestJS application with a `/ping` endpoint for sending messages
+- **Frontend**: React application with a `PingWindow` component for displaying messages
+- **Containerization**: Docker images for both frontend and backend
+- **CI/CD**: GitHub Actions pipeline for testing, building, and deploying
+- **Deployment**: Kubernetes manifests for deploying to GKE
 
-## Project setup
+## Features
+
+- ✅ Real-time messaging with auto-scrolling
+- ✅ Different styles for incoming and outgoing messages
+- ✅ Dockerized applications for easy deployment
+- ✅ Kubernetes deployment with ingress routing
+- ✅ CI/CD pipeline for automated deployment
+
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- pnpm
+- Docker
+- kubectl (for deployment)
+
+### Local Development
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ping-chat-service.git
+   cd ping-chat-service
+   ```
+
+2. Start the backend:
+   ```bash
+   cd backend
+   pnpm install
+   pnpm start:dev
+   ```
+
+3. Start the frontend:
+   ```bash
+   cd frontend
+   pnpm install
+   pnpm dev
+   ```
+
+4. Open your browser at http://localhost:3000
+
+### Docker Compose
+
+You can also run the application using Docker Compose:
 
 ```bash
-$ pnpm install
+docker-compose up
 ```
 
-## Compile and run the project
+## Deployment
 
-```bash
-# development
-$ pnpm run start
+The application is deployed to Google Kubernetes Engine (GKE) using GitHub Actions.
 
-# watch mode
-$ pnpm run start:dev
+### Kubernetes Resources
 
-# production mode
-$ pnpm run start:prod
+- `k8s/deployment.yml`: Defines the backend and frontend deployments
+- `k8s/service.yml`: Defines the services for accessing the deployments
+- `k8s/ingress.yml`: Configures the ingress for routing traffic
+
+### Manual Deployment
+
+1. Build and push the Docker images:
+   ```bash
+   docker build -t yourusername/ping-chat-backend:latest ./backend
+   docker build -t yourusername/ping-chat-frontend:latest ./frontend
+   docker push yourusername/ping-chat-backend:latest
+   docker push yourusername/ping-chat-frontend:latest
+   ```
+
+2. Apply the Kubernetes manifests:
+   ```bash
+   kubectl apply -f k8s/deployment.yml
+   kubectl apply -f k8s/service.yml
+   kubectl apply -f k8s/ingress.yml
+   ```
+
+## CI/CD Pipeline
+
+The GitHub Actions workflow in `.github/workflows/ci-cd.yml` automates:
+
+1. Testing the frontend and backend
+2. Building Docker images
+3. Pushing images to Docker Hub
+4. Deploying to GKE
+
+## Project Structure
+
 ```
-
-## Run tests
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+├── backend/                # NestJS backend application
+│   ├── src/                # Source code
+│   ├── Dockerfile          # Backend Docker configuration
+│   └── package.json        # Backend dependencies
+├── frontend/               # React frontend application
+│   ├── src/                # Source code
+│   │   ├── components/     # React components
+│   │   └── services/       # API services
+│   ├── Dockerfile          # Frontend Docker configuration
+│   └── package.json        # Frontend dependencies
+├── k8s/                    # Kubernetes configuration
+│   ├── deployment.yml      # Deployment configuration
+│   ├── service.yml         # Service configuration
+│   └── ingress.yml         # Ingress configuration
+├── .github/workflows/      # GitHub Actions workflows
+│   └── ci-cd.yml           # CI/CD pipeline configuration
+└── docker-compose.yml      # Docker Compose configuration
 ```
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
