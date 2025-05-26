@@ -6,4 +6,3 @@ spec:
   healthCheck:
     requestPath: /api/ping
     port: 80
-    type: HTTP

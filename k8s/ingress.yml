@@ -4,6 +4,8 @@ metadata:
   name: app-ingress
   annotations:
     kubernetes.io/ingress.class: "gce"
+    # Telling GKE how to check backend health
+    ingress.kubernetes.io/backends-health-check-path: "/api/ping"
 spec:
   rules:
   - http:

@@ -25,6 +25,9 @@ export const sendMessageToBackend = async (
   userId: string
 ): Promise<SendMessageResponse> => {
   try {
+    console.log("Sending message to backend...");
+    console.log("API_BASE_URL:", API_BASE_URL);
+    console.log("Full URL:", `${API_BASE_URL}/ping`);
     const response = await fetch(`${API_BASE_URL}/ping`, {
       method: "POST",
       headers: {
@@ -62,6 +65,9 @@ export const sendMessageToBackend = async (
  */
 export const testBackendConnection = async (): Promise<boolean> => {
   try {
+    console.log("Testing backend connection...");
+    console.log("API_BASE_URL:", API_BASE_URL);
+    console.log("Full URL:", `${API_BASE_URL}/ping`);
     const response = await fetch(`${API_BASE_URL}/ping`, {
       method: "GET",
     });
