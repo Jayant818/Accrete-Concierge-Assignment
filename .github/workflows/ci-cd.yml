@@ -11,8 +11,8 @@ env:
   BACKEND_IMAGE_NAME: jacksparrox/accrete-backend
   FRONTEND_IMAGE_NAME: jacksparrox/accrete-frontend
   PROJECT_ID: socialpost-430014 
-  CLUSTER_NAME: concierge-cluster
-  CLUSTER_REGION: asia-south1
+  CLUSTER_NAME: concierge-cluster-1
+  CLUSTER_REGION: asia-east1
 
 jobs:
   test-and-build:
